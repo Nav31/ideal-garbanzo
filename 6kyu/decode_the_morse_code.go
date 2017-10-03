@@ -5,7 +5,6 @@ import (
 )
 
 // https://www.codewars.com/kata/decode-the-morse-code/train/go
-// Have to findout what the map is called on codewars
 
 func DecodeMorse(morseCode string) string {
 	wordSlice := strings.Split(morseCode, " ")
