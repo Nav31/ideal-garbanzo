@@ -1,24 +1,30 @@
 package codewars
 
-//import "math"
+import "math"
+
+func round(f float64) int {
+	return int(f + math.Copysign(0.5, f))
+}
 
 func NbMonths(startPriceOld, startPriceNew, savingsperMonth int, percentLossByMonth float64) [2]int {
+	if startPriceOld > startPriceNew {
+		return [2]int{0, startPriceOld - startPriceNew}
+	}
 	monthCounter := 0
-	// see when savings balance is greater than startPriceNew
-	savingsBalance := float64(savingsperMonth)
+	savingsBalance := float64(0)
 	floatStartPriceOld := float64(startPriceOld)
 	floatStartPriceNew := float64(startPriceNew)
-
-	for floatStartPriceNew > savingsBalance {
-		monthlyDeprecation := float64(0)
-		monthlyDeprecation = float64(floatStartPriceOld) * float64(.0025) // deprecation at fixed rate
-		floatStartPriceOld -= monthlyDeprecation
+	for floatStartPriceNew >= savingsBalance + floatStartPriceOld {
+		floatStartPriceOld -= floatStartPriceOld * (percentLossByMonth / 100)
 		floatStartPriceNew -= floatStartPriceNew * (percentLossByMonth / 100)
-		savingsBalance += float64(savingsperMonth) - monthlyDeprecation
-		if savingsBalance > floatStartPriceNew {
-			return [2]int{monthCounter, int(savingsBalance - floatStartPriceNew)}
+		if monthCounter % 2 == 0 {
+			percentLossByMonth += .5
 		}
+		if floatStartPriceOld >= floatStartPriceNew {
+			return [2]int{monthCounter, int(round(floatStartPriceOld - floatStartPriceNew))}
+		}
+		savingsBalance += float64(savingsperMonth)
 		monthCounter++
 	}
-	return [2]int{monthCounter, int(savingsBalance - floatStartPriceNew)}
+	return [2]int{monthCounter, int(round(savingsBalance + floatStartPriceOld - floatStartPriceNew))}
 }
