@@ -2,14 +2,6 @@ package codewars
 
 import "math"
 
-//import "math"
-
-//import "fmt"
-
-//import "fmt"
-
-//import "fmt"
-
 // https://www.codewars.com/kata/is-my-friend-cheating
 
 
